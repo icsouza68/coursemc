@@ -1,5 +1,6 @@
 package com.ivansouza.coursemc.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.ivansouza.coursemc.domain.Categoria;
+import com.ivansouza.coursemc.dto.CategoriaDTO;
 import com.ivansouza.coursemc.repositories.CategoriaRepository;
 import com.ivansouza.coursemc.services.exceptions.DataIntegrityException;
 import com.ivansouza.coursemc.services.exceptions.ObjectNotFoundException;
@@ -23,7 +25,11 @@ public class CategoriaService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
-	
+
+	public List<Categoria> findAll() {
+		return repo.findAll();
+	}
+
 	public Categoria insert(Categoria obj) {
 		// pra garantir que seja uma inclusao. Se o Id for diferente de nulo, ele vai atualizar, em vez de inserir
 		obj.setId(null);
