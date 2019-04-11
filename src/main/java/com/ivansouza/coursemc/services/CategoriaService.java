@@ -39,11 +39,24 @@ public class CategoriaService {
 		return repo.save(obj);
 	}
 
-	public Categoria update(Categoria obj) {
+/*	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		// o método do repositório é o mesmo que para inserir
 		return repo.save(obj);
 	}
+*/	
+	public Categoria update(Categoria obj) {
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		// o método do repositório é o mesmo que para inserir
+		return repo.save(newObj);
+	}
+	
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+	}
+
+
 
 	public void delete(Integer id) {
 		find(id);
