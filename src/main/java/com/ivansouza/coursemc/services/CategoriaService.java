@@ -56,8 +56,6 @@ public class CategoriaService {
 		newObj.setNome(obj.getNome());
 	}
 
-
-
 	public void delete(Integer id) {
 		find(id);
 		try {
