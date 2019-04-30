@@ -37,6 +37,7 @@ public class ClienteResource {
 	}
 
 	@RequestMapping(method=RequestMethod.GET)
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 		List<Cliente> list = service.findAll();
 		List<ClienteDTO> listDto = list.stream().map(obj -> new ClienteDTO(obj)).collect(Collectors.toList());
@@ -55,6 +56,7 @@ public class ClienteResource {
 
 
 	@RequestMapping(value="/page", method=RequestMethod.GET)
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Page<ClienteDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 

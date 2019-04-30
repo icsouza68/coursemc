@@ -16,10 +16,13 @@ import com.ivansouza.coursemc.domain.Cliente;
 import com.ivansouza.coursemc.domain.Endereco;
 import com.ivansouza.coursemc.dto.ClienteDTO;
 import com.ivansouza.coursemc.dto.ClienteNewDTO;
+import com.ivansouza.coursemc.enums.PerfilCliente;
 import com.ivansouza.coursemc.enums.TipoCliente;
 import com.ivansouza.coursemc.repositories.CidadeRepository;
 import com.ivansouza.coursemc.repositories.ClienteRepository;
 import com.ivansouza.coursemc.repositories.EnderecoRepository;
+import com.ivansouza.coursemc.security.UserSS;
+import com.ivansouza.coursemc.services.exceptions.AuthorizationException;
 import com.ivansouza.coursemc.services.exceptions.DataIntegrityException;
 import com.ivansouza.coursemc.services.exceptions.ObjectNotFoundException;
 
@@ -39,6 +42,11 @@ public class ClienteService {
 	private EnderecoRepository enderecoRepository;
 
 	public Cliente find(Integer id) {
+		UserSS user = UserService.authenticated();
+		if (user==null || !user.hasRole(PerfilCliente.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso negado!");
+			
+		}
 		Optional<Cliente> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
@@ -106,8 +114,6 @@ public class ClienteService {
 		if (objDto.getTelefone3()!=null) {
 			cli.getTelefones().add(objDto.getTelefone3());
 		}
-		return cli;
-		
+		return cli;	
 	}
-
 }
