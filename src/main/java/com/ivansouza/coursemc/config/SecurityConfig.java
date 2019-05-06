@@ -86,8 +86,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 used. Else if corsConfigurationSource is defined, then that CorsConfiguration is used. Otherwise, if
 Spring MVC is on the classpath a HandlerMappingIntrospector is used."
  */
+		CorsConfiguration configuration = new CorsConfiguration().applyPermitDefaultValues();
+		configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
 		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
 	
